@@ -25,7 +25,7 @@ module input_mod
     integer:: dim_id
     integer:: dim_len
   end type
-  
+
   type,extends(list_variables):: type_input
   contains
     private
@@ -39,20 +39,20 @@ module input_mod
     procedure:: add_netcdf_dimension
     procedure:: get_netcdf_dimension
   end type
-  
+
   interface type_input
     module procedure type_input_constructor
   end interface
-  
+
 contains
-  
+
   function type_input_constructor(infile)
     character(len=*), intent(in):: infile
     type(type_input):: type_input_constructor
 
     call type_input_constructor%type_input_initialize(infile)
   end function
-  
+
   subroutine type_input_initialize(self,infile)
     class(type_input):: self
     character(len=*),intent(in):: infile
@@ -200,18 +200,18 @@ contains
       name = ''
     end if
   end subroutine
-  
+
   subroutine get_ascii_array(infile,array)
     character(len=*),intent(in):: infile
     real(rk),dimension(:),intent(inout):: array
-    
+
     integer i,rdst
-    
+
     open(12,file=infile,status="old",action="read",position="rewind")
     i = 1
     do
         ! read line from input file
-        read(12, '(f)', iostat=rdst) array(i)
+        read(12, '(f5.1)', iostat=rdst) array(i)
         ! if end of file, exit loop
         if (rdst >0) stop "ASCII read error"
         if (rdst <0) exit
